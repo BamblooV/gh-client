@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  & > div {
+    border: 6px solid #ffffff;
+    border-top: 6px solid transparent;
+  }
+}
