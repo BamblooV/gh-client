@@ -48,7 +48,7 @@ export const Card: React.FC<CardProps> = ({
             {new Date(updated)
               .toLocaleDateString("en-EN", {
                 day: "numeric",
-                month: "long",
+                month: "short",
               })
               .split(" ")
               .reverse()

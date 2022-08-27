@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 357px;
+  grid-auto-rows: auto;
+  column-gap: 12px;
+  row-gap: 20px;
+  justify-content: center;
+}
+
+.rowItem {
+  display: grid;
+  row-gap: 16px;
+}
+
+.inputContainer {
+  display: grid;
+  grid-template-columns: 295px 50px;
+  grid-auto-rows: auto;
+  column-gap: 12px;
+  row-gap: 20px;
+  justify-content: center;
+}
+
+.ending {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  text-align: center;
+  margin: auto;
+}
