@@ -1,4 +1,4 @@
 export const API_ENDPOINTS = {
-  REPOS: "https://api.github.com/orgs/",
-  USER: "/api/user",
+  BASE_URL: "https://api.github.com/orgs/",
+  REPOS: "https://api.github.com/repos",
 };

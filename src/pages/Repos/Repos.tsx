@@ -7,6 +7,7 @@ import { SearchButton } from "@components/SearchButton";
 import { API_ENDPOINTS } from "@config/api";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Repos.module.scss";
 
@@ -41,7 +42,7 @@ export const Repos = () => {
   const fetchData = async () => {
     const data = (
       await axios.get(
-        API_ENDPOINTS.REPOS + `${inputValue}/repos?page=` + nextPage
+        API_ENDPOINTS.BASE_URL + `${inputValue}/repos?page=` + nextPage
       )
     ).data;
 
@@ -73,7 +74,6 @@ export const Repos = () => {
   };
 
   const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    console.log(event);
     if (event.code === "Enter") {
       setHasMore(true);
       setNextPage(1);
@@ -81,6 +81,8 @@ export const Repos = () => {
       fetchData();
     }
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className={styles.gridContainer}>
@@ -115,6 +117,7 @@ export const Repos = () => {
             htmlLink={rep.htmlLink}
             updated={rep.updated}
             starCount={rep.starCount}
+            onClick={() => navigate(`/repo/${rep.owner}/${rep.title}`)}
           />
         ))}
       </InfiniteScroll>
