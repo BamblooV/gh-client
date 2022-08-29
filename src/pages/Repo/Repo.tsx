@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Button } from "@components/Button";
+import { Loader, LoaderSize } from "@components/Loader";
 import { API_ENDPOINTS } from "@config/api";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -35,10 +36,12 @@ export const Repo = () => {
   const { owner, name } = useParams();
   const [information, setInformation] = useState({} as REPOSITORY_INFO);
   const [noInfo, setNoInfo] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -65,16 +68,20 @@ export const Repo = () => {
       } catch (error) {
         setNoInfo(true);
         return;
+      } finally {
+        setIsLoading(false);
       }
     };
-
     fetchData();
-  }, []);
+  }, [owner, name]);
 
   return (
     <div className={styles.container}>
+      {isLoading && <Loader size={LoaderSize.l} />}
       {noInfo ? (
-        <div>Репозитория нет, или он является приватным</div>
+        <div style={{ display: isLoading ? "none" : "block" }}>
+          Репозитория нет, или он является приватным
+        </div>
       ) : (
         <div className={styles.repoInfo}>
           <div className={styles.title}>{information.name}</div>
