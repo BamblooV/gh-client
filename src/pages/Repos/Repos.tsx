@@ -42,7 +42,7 @@ export const Repos = () => {
   const fetchData = async () => {
     const data = (
       await axios.get(
-        API_ENDPOINTS.BASE_URL + `${inputValue}/repos?page=` + nextPage
+        API_ENDPOINTS.ORGS + `${inputValue}/repos?page=` + nextPage
       )
     ).data;
 
