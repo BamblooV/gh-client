@@ -35,7 +35,7 @@ type REPOSITORY_INFO = {
 
 export const Repos = () => {
   const [inputValue, setInputValue] = useState("");
-  const [repos, setRepos] = useState([] as REPOSITORY_INFO[]);
+  const [repos, setRepos] = useState<REPOSITORY_INFO[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [nextPage, setNextPage] = useState(1);
 
@@ -69,7 +69,7 @@ export const Repos = () => {
   const handleClick = () => {
     setHasMore(true);
     setNextPage(1);
-    setRepos([] as REPOSITORY_INFO[]);
+    setRepos([]);
     fetchData();
   };
 
@@ -77,7 +77,7 @@ export const Repos = () => {
     if (event.code === "Enter") {
       setHasMore(true);
       setNextPage(1);
-      setRepos([] as REPOSITORY_INFO[]);
+      setRepos([]);
       fetchData();
     }
   };

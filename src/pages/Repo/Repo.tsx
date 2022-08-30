@@ -34,7 +34,7 @@ type REPOSITORY_INFO = {
 
 export const Repo = () => {
   const { owner, name } = useParams();
-  const [information, setInformation] = useState({} as REPOSITORY_INFO);
+  const [information, setInformation] = useState<REPOSITORY_INFO | null>(null);
   const [noInfo, setNoInfo] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,11 +48,11 @@ export const Repo = () => {
           API_ENDPOINTS.REPOS + `/${owner}/${name}`
         );
 
-        const data = response.data as GIT_RESPONSE;
+        const data: GIT_RESPONSE = response.data;
 
         const branchesAmount = (
           await axios.get(API_ENDPOINTS.REPOS + `/${owner}/${name}/branches`)
-        ).data.length as number;
+        ).data.length;
 
         setInformation({
           name: data.name,
@@ -78,7 +78,7 @@ export const Repo = () => {
   return (
     <div className={styles.container}>
       {isLoading && <Loader size={LoaderSize.l} />}
-      {noInfo ? (
+      {noInfo || !information ? (
         <div style={{ display: isLoading ? "none" : "block" }}>
           Репозитория нет, или он является приватным
         </div>
