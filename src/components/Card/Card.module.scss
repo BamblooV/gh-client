@@ -1,0 +1,76 @@
+.git-repo-tile {
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 357px;
+  height: 104px;
+  padding: 12px;
+
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+
+  display: flex;
+  gap: 12px;
+
+  transition: box-shadow 0.1s ease-in-out;
+
+  &:hover {
+    box-shadow: 0px 2px 6px rgba(182, 182, 182, 0.25);
+  }
+
+  .avatar {
+    border-radius: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .description {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 241px;
+
+    gap: 5px;
+
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+      min-height: 19px;
+      line-height: 19px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .link {
+      color: #7e7e7e;
+      font-size: 14px;
+      line-height: 16px;
+      text-decoration: none;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: max-content;
+
+      &:hover {
+        color: #208fbf;
+      }
+    }
+
+    .info {
+      font-size: 14px;
+      line-height: 16px;
+      color: #7e7e7e;
+      display: flex;
+      gap: 20px;
+
+      .star {
+        vertical-align: center;
+      }
+    }
+  }
+}
