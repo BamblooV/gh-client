@@ -8,7 +8,7 @@ export type CardProps = {
   title: string;
   owner: string;
   htmlLink: string;
-  updated: string;
+  updated: Date;
   starCount: number;
   onClick?: React.MouseEventHandler;
 };
@@ -44,8 +44,8 @@ export const Card: React.FC<CardProps> = ({
             </span>
           </div>
           <div>
-            Updated{" "}
-            {new Date(updated)
+            Updated
+            {updated
               .toLocaleDateString("en-EN", {
                 day: "numeric",
                 month: "short",
