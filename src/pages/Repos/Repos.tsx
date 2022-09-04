@@ -1,85 +1,51 @@
-/* eslint-disable no-console */
 import React, { useState, KeyboardEvent } from "react";
 
 import { Card } from "@components/Card/Card";
 import { Input } from "@components/Input";
 import { SearchButton } from "@components/SearchButton";
-import { API_ENDPOINTS } from "@config/api";
-import axios from "axios";
+import { GithubRepoModel } from "@models//gitHub";
+import { GitHubStore } from "@store/GitHubStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
+import rootStore from "../../RootStore//instance";
+import { useQueryParamsStoreInit } from "../../RootStore/hooks/useQueryParamsStoreInit";
 import styles from "./Repos.module.scss";
 
-type GIT_RESPONSE = {
-  owner: {
-    avatar_url: string;
-    login: string;
-    html_url: string;
-  };
-  name: string;
-  updated_at: string;
-  stargazers_count: number;
-  id: number;
-};
+const Repos: React.FC = () => {
+  useQueryParamsStoreInit();
+  const root = rootStore;
+  const [search, setSearch] = useSearchParams();
+  const [inputValue, setInputValue] = useState(
+    root.query.getParam("org")?.toString() || ""
+  );
+  const store = useLocalStore(() => new GitHubStore());
+  React.useEffect(() => {
+    setSearch({ org: inputValue });
+  }, [inputValue, setSearch]);
 
-type REPOSITORY_INFO = {
-  image: string;
-  title: string;
-  owner: string;
-  htmlLink: string;
-  updated: string;
-  starCount: number;
-  id: number;
-};
-
-export const Repos = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [repos, setRepos] = useState<REPOSITORY_INFO[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [nextPage, setNextPage] = useState(1);
-
-  const fetchData = async () => {
-    const data = (
-      await axios.get(
-        API_ENDPOINTS.ORGS + `${inputValue}/repos?page=` + nextPage
-      )
-    ).data;
-
-    const preprocessedData = data.map((rep: GIT_RESPONSE) => ({
-      image: rep.owner.avatar_url,
-      title: rep.name,
-      owner: rep.owner.login,
-      htmlLink: rep.owner.html_url,
-      updated: rep.updated_at,
-      starCount: rep.stargazers_count,
-      id: rep.id,
-    }));
-
-    setRepos((prevState: REPOSITORY_INFO[]) => {
-      return [...prevState, ...preprocessedData];
-    });
-    setNextPage((prevState) => prevState + 1);
-
-    if (preprocessedData.length < 30) {
-      setHasMore(false);
+  React.useEffect(() => {
+    if (inputValue !== "") {
+      store.getOrganizationRepoList({ organizationName: inputValue });
     }
-  };
+  }, []);
 
   const handleClick = () => {
-    setHasMore(true);
-    setNextPage(1);
-    setRepos([]);
-    fetchData();
+    store.reset();
+    store.getOrganizationRepoList({ organizationName: inputValue });
   };
 
   const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.code === "Enter") {
-      setHasMore(true);
-      setNextPage(1);
-      setRepos([]);
-      fetchData();
+      store.reset();
+      store.getOrganizationRepoList({ organizationName: inputValue });
     }
+  };
+
+  const onChangeHandler = (value: string): void => {
+    setInputValue(value);
   };
 
   const navigate = useNavigate();
@@ -90,7 +56,7 @@ export const Repos = () => {
         <Input
           placeholder="Введите название организации"
           value={inputValue}
-          onChange={setInputValue}
+          onChange={onChangeHandler}
           onKeyPress={keyPressHandler}
         />
         <SearchButton onClick={handleClick} />
@@ -98,9 +64,11 @@ export const Repos = () => {
       <InfiniteScroll
         style={{ fontSize: "40px" }}
         className={styles.rowItem}
-        dataLength={repos.length}
-        next={fetchData}
-        hasMore={hasMore}
+        dataLength={store.list.length}
+        next={() =>
+          store.getOrganizationRepoList({ organizationName: inputValue })
+        }
+        hasMore={store.hasMore}
         loader={""}
         endMessage={
           <p className={styles.ending}>
@@ -108,19 +76,21 @@ export const Repos = () => {
           </p>
         }
       >
-        {repos.map((rep: REPOSITORY_INFO) => (
+        {store.list.map((rep: GithubRepoModel) => (
           <Card
             key={rep.id}
-            image={rep.image}
+            image={rep.owner.avatarUrl}
             title={rep.title}
-            owner={rep.owner}
+            owner={rep.owner.name}
             htmlLink={rep.htmlLink}
             updated={rep.updated}
             starCount={rep.starCount}
-            onClick={() => navigate(`/repo/${rep.owner}/${rep.title}`)}
+            onClick={() => navigate(`/repo/${rep.owner.name}/${rep.title}`)}
           />
         ))}
       </InfiniteScroll>
     </div>
   );
 };
+
+export default observer(Repos);
