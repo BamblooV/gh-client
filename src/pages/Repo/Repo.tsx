@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { Button } from "@components/Button";
 import { Loader, LoaderSize } from "@components/Loader";
-import { RepoStore } from "@store/RepoStore/RepoStore";
+import { RepoStore } from "@store/RepoStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,10 +17,10 @@ const Repo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (typeof owner === "string" && typeof name === "string") {
-      store.getRepoInformation({ owner: owner, name: name });
+    if (owner && name) {
+      store.getRepoInformation({ owner, name });
     }
-  }, []);
+  }, [name, owner, store]);
 
   return (
     <div className={styles.container}>
@@ -30,16 +30,7 @@ const Repo = () => {
           Репозитория нет, или он является приватным
         </div>
       ) : (
-        <RepoCard
-          title={store.information.name}
-          avatarUrl={store.information.owner.avatarUrl}
-          ownerName={store.information.owner.name}
-          description={store.information.description}
-          watchersCount={store.information.watchersCount}
-          stargazersCount={store.information.stargazersCount}
-          forksCount={store.information.forks}
-          branchesCount={store.information.branches}
-        />
+        <RepoCard information={store.information} />
       )}
       <Button onClick={() => navigate(-1)}>Назад</Button>
     </div>

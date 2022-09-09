@@ -44,7 +44,7 @@ export const Card: React.FC<CardProps> = ({
             </span>
           </div>
           <div>
-            Updated
+            Updated &nbsp
             {updated
               .toLocaleDateString("en-EN", {
                 day: "numeric",

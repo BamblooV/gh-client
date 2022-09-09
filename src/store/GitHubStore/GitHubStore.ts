@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from "@config/api";
+import { GithubRepoModel, normalizeGithubRepo } from "@models/gitHub";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -9,8 +10,6 @@ import {
   runInAction,
 } from "mobx";
 
-import { GithubRepoModel, normalizeGithubRepo } from "../../models/gitHub";
-// import { GithubRepoModel, normalizeGithubRepo } from "@models/gitHub";
 export type GetOrganizationRepoListParams = {
   organizationName: string;
 };

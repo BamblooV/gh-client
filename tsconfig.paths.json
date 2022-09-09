@@ -9,7 +9,7 @@
       "@pages/*": ["src/pages/*"],
       "@store/*": ["src/store/*"],
       "@models/*": ["src/models/*"],
-      "@rootStore/*": ["src/RootStore/*"]
+      "@rootStore/*": ["src/store/RootStore/*"]
     }
   }
 }

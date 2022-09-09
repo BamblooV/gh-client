@@ -17,7 +17,7 @@ export type GithubRepositoryModel = {
     avatarUrl: string;
   };
   description: string;
-  branches: number;
+  branches?: number;
   watchersCount: number;
   forks: number;
   stargazersCount: number;
@@ -32,7 +32,6 @@ export const normalizeGithubRepository = (
     avatarUrl: from.owner.avatar_url,
   },
   description: from.description,
-  branches: 0,
   watchersCount: from.watchers_count,
   forks: from.forks,
   stargazersCount: from.stargazers_count,

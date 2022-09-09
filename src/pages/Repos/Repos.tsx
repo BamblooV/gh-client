@@ -4,20 +4,20 @@ import { Card } from "@components/Card/Card";
 import { Input } from "@components/Input";
 import { SearchButton } from "@components/SearchButton";
 import { GithubRepoModel } from "@models//gitHub";
+import { useQueryParamsStoreInit } from "@rootStore/hooks/useQueryParamsStoreInit";
+import rootStore from "@rootStore/instance";
 import { GitHubStore } from "@store/GitHubStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import rootStore from "../../RootStore//instance";
-import { useQueryParamsStoreInit } from "../../RootStore/hooks/useQueryParamsStoreInit";
 import styles from "./Repos.module.scss";
 
 const Repos: React.FC = () => {
   useQueryParamsStoreInit();
   const root = rootStore;
-  const [search, setSearch] = useSearchParams();
+  const [, setSearch] = useSearchParams();
   const [inputValue, setInputValue] = useState(
     root.query.getParam("org")?.toString() || ""
   );
@@ -26,21 +26,26 @@ const Repos: React.FC = () => {
     setSearch({ org: inputValue });
   }, [inputValue, setSearch]);
 
+  const getInputOrganizationRepoList = React.useCallback(
+    () => store.getOrganizationRepoList({ organizationName: inputValue }),
+    [inputValue, store]
+  );
+
   React.useEffect(() => {
     if (inputValue !== "") {
-      store.getOrganizationRepoList({ organizationName: inputValue });
+      getInputOrganizationRepoList();
     }
   }, []);
 
   const handleClick = () => {
     store.reset();
-    store.getOrganizationRepoList({ organizationName: inputValue });
+    getInputOrganizationRepoList();
   };
 
   const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.code === "Enter") {
       store.reset();
-      store.getOrganizationRepoList({ organizationName: inputValue });
+      getInputOrganizationRepoList();
     }
   };
 
@@ -65,11 +70,9 @@ const Repos: React.FC = () => {
         style={{ fontSize: "40px" }}
         className={styles.rowItem}
         dataLength={store.list.length}
-        next={() =>
-          store.getOrganizationRepoList({ organizationName: inputValue })
-        }
+        next={() => getInputOrganizationRepoList()}
         hasMore={store.hasMore}
-        loader={""}
+        loader={null}
         endMessage={
           <p className={styles.ending}>
             <b>Ты посмотрел все репозитории</b>
