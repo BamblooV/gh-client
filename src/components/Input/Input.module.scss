@@ -1,0 +1,31 @@
+.input {
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  outline: none;
+
+  width: 295px;
+  height: 50px;
+
+  line-height: 16px;
+  padding: 12px 7px;
+
+  &::placeholder {
+    color: #7e7e7e;
+  }
+
+  &:focus,
+  &:focus-visible {
+    border: 1px solid #ff5555;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: #7e7e7e;
+  }
+}

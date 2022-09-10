@@ -1,0 +1,35 @@
+.repoInfo {
+  font-family: "Roboto", sans-serif;
+  max-width: 80vw;
+  min-width: 500px;
+  max-height: 70vh;
+  min-height: auto;
+  border: 1px dashed black;
+  margin: 0 auto;
+  border-radius: 6px;
+  box-shadow: 8px 6px rgba($color: #8d8d8d, $alpha: 0.15);
+  padding: 10px 15px;
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .flexContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .author {
+      border: 1px dashed black;
+      padding: 5px;
+
+      img {
+        border-radius: 40px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
