@@ -46,6 +46,7 @@ module.exports = {
   output: {
     path: buildPath,
     filename: "bundle.js",
+    publicPath: './',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -100,6 +101,7 @@ module.exports = {
     host: "127.0.0.1",
     port: 5501,
     hot: true,
+    historyApiFallback: true
   },
   optimization: {
     splitChunks: {
