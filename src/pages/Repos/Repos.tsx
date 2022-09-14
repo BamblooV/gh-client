@@ -2,6 +2,7 @@ import React, { useState, KeyboardEvent } from "react";
 
 import { Card } from "@components/Card/Card";
 import { Input } from "@components/Input";
+import { Loader, LoaderSize } from "@components/Loader";
 import { SearchButton } from "@components/SearchButton";
 import { GithubRepoModel } from "@models//gitHub";
 import { useQueryParamsStoreInit } from "@rootStore/hooks/useQueryParamsStoreInit";
@@ -72,7 +73,13 @@ const Repos: React.FC = () => {
         dataLength={store.list.length}
         next={() => getInputOrganizationRepoList()}
         hasMore={store.hasMore}
-        loader={null}
+        loader={
+          store.isLoading && (
+            <div className={styles.loaderContainer}>
+              <Loader size={LoaderSize.l} />
+            </div>
+          )
+        }
         endMessage={
           <p className={styles.ending}>
             <b>Ты посмотрел все репозитории</b>

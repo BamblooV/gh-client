@@ -18,20 +18,23 @@ interface IGitHubStore {
   getOrganizationRepoList(params: GetOrganizationRepoListParams): Promise<void>;
 }
 
-type PrivateFields = "_list" | "_hasMore";
+type PrivateFields = "_list" | "_hasMore" | "_isLoading";
 
 export class GitHubStore implements ILocalStore, IGitHubStore {
   private _list: GithubRepoModel[] = [];
   private _hasMore: boolean = true;
   private _nextPage: number = 1;
+  private _isLoading: boolean = false;
   private readonly _responseLength: number = 30;
 
   constructor() {
     makeObservable<GitHubStore, PrivateFields>(this, {
       _list: observable.ref,
       _hasMore: observable,
+      _isLoading: observable,
       list: computed,
       hasMore: computed,
+      isLoading: computed,
       getOrganizationRepoList: action,
       reset: action,
     });
@@ -45,15 +48,21 @@ export class GitHubStore implements ILocalStore, IGitHubStore {
     return this._hasMore;
   }
 
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
   reset(): void {
     this._hasMore = true;
     this._nextPage = 1;
+    this._isLoading = false;
     this._list = [];
   }
 
   async getOrganizationRepoList(
     params: GetOrganizationRepoListParams
   ): Promise<void> {
+    this._isLoading = true;
     const response = await axios.get(
       API_ENDPOINTS.ORGS +
         `${params.organizationName}/repos?page=` +
@@ -70,6 +79,8 @@ export class GitHubStore implements ILocalStore, IGitHubStore {
         }
       } catch (error) {
         throw error;
+      } finally {
+        this._isLoading = false;
       }
     });
   }
