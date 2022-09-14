@@ -14,7 +14,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 const getSettingsForStyles = (withModules = false) => {
   return [
-    !isProd ? "style-loader" : MiniCssExtractPlugin.loader,
+    isProd ? MiniCssExtractPlugin.loader : "style-loader",
     withModules
       ? "css-loader"
       : {
@@ -41,12 +41,12 @@ const getSettingsForStyles = (withModules = false) => {
 
 module.exports = {
   entry: path.join(srcPath, "index.tsx"),
-  target: !isProd ? "web" : "browserslist",
+  target: isProd ? "browserslist" : "web",
   devtool: isProd ? "hidden-source-map" : "eval-source-map",
   output: {
     path: buildPath,
     filename: "bundle.js",
-    publicPath: './',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
