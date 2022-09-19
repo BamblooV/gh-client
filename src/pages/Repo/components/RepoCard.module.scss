@@ -1,7 +1,12 @@
+h2,
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
 .repoInfo {
   font-family: "Roboto", sans-serif;
   max-width: 80vw;
-  min-width: 500px;
   max-height: 70vh;
   min-height: auto;
   border: 1px dashed black;
@@ -9,11 +14,7 @@
   border-radius: 6px;
   box-shadow: 8px 6px rgba($color: #8d8d8d, $alpha: 0.15);
   padding: 10px 15px;
-
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-  }
+  background-color: #fff;
 
   .flexContainer {
     display: flex;
@@ -21,7 +22,6 @@
     gap: 20px;
 
     .author {
-      border: 1px dashed black;
       padding: 5px;
 
       img {
@@ -29,6 +29,28 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
+      }
+    }
+
+    .information {
+      .header {
+        margin-bottom: 0.75em;
+        text-align: right;
+        margin-right: 10px;
+        .title {
+          max-width: 400px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        .org {
+          font-size: 14px;
+          font-weight: normal;
+          color: rgb(66, 66, 66);
+        }
       }
     }
   }

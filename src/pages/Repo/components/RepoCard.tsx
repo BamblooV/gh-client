@@ -9,7 +9,6 @@ export type RepoCardProps = { information: GithubRepositoryModel };
 export const RepoCard: React.FC<RepoCardProps> = ({ information }) => {
   return (
     <div className={styles.repoInfo}>
-      <div className={styles.title}>{information.name}</div>
       <div className={styles.flexContainer}>
         <div className={styles.author}>
           <img
@@ -18,16 +17,25 @@ export const RepoCard: React.FC<RepoCardProps> = ({ information }) => {
             width={80}
             height={80}
           />
-          <div>{information.owner.name}</div>
         </div>
         <div className={styles.information}>
-          <div> Description: {information.description}</div>
+          <div className={styles.header}>
+            <h2 className={styles.title}>{information.name}</h2>
+            <h3 className={styles.org}>{information.owner.name}</h3>
+          </div>
           <div>За репозиторием наблюдают: {information.watchersCount}</div>
           <div>Звезд у репозитория: {information.stargazersCount}</div>
           <div>Форков репозитория: {information.forks}</div>
           {information.branches && (
             <div>Количество ветвей: {information.branches}</div>
           )}
+          <div>
+            {" "}
+            Description:{" "}
+            {information.description
+              ? information.description
+              : "Описание отсутствует"}
+          </div>
         </div>
       </div>
     </div>
