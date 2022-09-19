@@ -2,7 +2,7 @@
   "name": "hw5",
   "version": "1.0.0",
   "main": "index.js",
-  "homepage": "https://BamblooV.github.io/react-gh-pages",
+  "homepage": "https://BamblooV.github.io/gh-client",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development npx webpack serve --mode=development",
@@ -11,7 +11,7 @@
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
