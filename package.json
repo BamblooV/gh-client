@@ -2,13 +2,16 @@
   "name": "hw5",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://BamblooV.github.io/react-gh-pages",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development npx webpack serve --mode=development",
     "build": "cross-env NODE_ENV=production npx webpack --mode=production",
     "ts-check": "tsc --skipLibCheck --noEmit --project tsconfig.json",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
@@ -28,6 +31,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
